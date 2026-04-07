@@ -27,6 +27,14 @@ Edit `.env` with your values:
 - **GMAIL_USER**: Your Gmail address
 - **GMAIL_APP_PASSWORD**: Gmail App Password (enable 2FA first, then generate at myaccount.google.com → Security → App Passwords)
 - **RECIPIENT_EMAIL**: The email address that receives all generated emails
+- **EMAIL_PROVIDER**: Which AI provider to use: `openai` (default) or `claude`
+- **ANTHROPIC_API_KEY**: Your Anthropic API key (required when EMAIL_PROVIDER=claude)
+
+### Providers
+
+**OpenAI (default):** Uses OpenAI Assistants API with a persistent thread. Requires `OPENAI_API_KEY`, `OPENAI_ASSISTANT_ID`, and `OPENAI_THREAD_ID`.
+
+**Claude:** Uses Claude API with SQLite-backed conversation history (stored in `data/conversations.db`, auto-created). Requires `ANTHROPIC_API_KEY`.
 
 ### 3. Start the server
 
