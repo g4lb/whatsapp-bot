@@ -1,0 +1,54 @@
+# WhatsApp Email Bot
+
+Receives WhatsApp messages with a Hebrew trigger phrase, translates them to English, generates a professional email using OpenAI's Assistants API, and sends it via Gmail.
+
+## Setup
+
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Configure environment
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env` with your values:
+
+- **WHATSAPP_VERIFY_TOKEN**: Any string you choose (used during webhook setup)
+- **WHATSAPP_ACCESS_TOKEN**: From Meta Developer Console
+- **ALLOWED_PHONE_NUMBER**: Phone number in international format without `+` (e.g. `972501234567`)
+- **OPENAI_API_KEY**: Your OpenAI API key
+- **OPENAI_ASSISTANT_ID**: Create an assistant at platform.openai.com with instructions: *"You are an email writer. When given a topic, write a professional email. Always include a clear subject line on the first line prefixed with 'Subject: ', followed by a blank line, then the email body."*
+- **OPENAI_THREAD_ID**: Create a thread via the OpenAI API or dashboard
+- **GMAIL_USER**: Your Gmail address
+- **GMAIL_APP_PASSWORD**: Gmail App Password (enable 2FA first, then generate at myaccount.google.com → Security → App Passwords)
+- **RECIPIENT_EMAIL**: The email address that receives all generated emails
+
+### 3. Start the server
+
+```bash
+npm start
+```
+
+### 4. Set up Meta webhook
+
+1. Go to developers.facebook.com → your app → WhatsApp → Configuration
+2. Set webhook URL to `https://your-server.com/webhook`
+3. Set verify token to your `WHATSAPP_VERIFY_TOKEN` value
+4. Subscribe to `messages` events
+
+## Usage
+
+Send a WhatsApp message starting with **תכין לי מייל** followed by the email topic in Hebrew. The bot will translate it, generate a professional email, and send it to the configured recipient.
+
+Example: `תכין לי מייל על הפגישה של מחר בנושא התקציב`
+
+## Tests
+
+```bash
+npm test
+```
