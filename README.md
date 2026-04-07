@@ -1,6 +1,6 @@
 # WhatsApp Email Bot
 
-Receives WhatsApp messages with a Hebrew trigger phrase, translates them to English, generates a professional email using OpenAI's Assistants API, and sends it via Gmail.
+Receives WhatsApp messages with a Hebrew trigger phrase, translates them to English, generates a professional email using a configurable AI provider (OpenAI or Claude), and sends it via Gmail.
 
 ## Setup
 
