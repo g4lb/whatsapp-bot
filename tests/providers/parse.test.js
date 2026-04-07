@@ -1,4 +1,4 @@
-const { parseEmailResponse } = require('../src/assistant');
+const { parseEmailResponse } = require('../../src/providers/parse');
 
 describe('parseEmailResponse', () => {
   test('parses response with Subject: prefix', () => {
