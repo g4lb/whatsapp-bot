@@ -1,4 +1,5 @@
 const OpenAI = require('openai');
+const { parseEmailResponse } = require('./parse');
 
 let _openai = null;
 function getOpenAI() {
@@ -6,19 +7,6 @@ function getOpenAI() {
     _openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
   }
   return _openai;
-}
-
-function parseEmailResponse(responseText) {
-  const lines = responseText.split('\n');
-  const firstLine = lines[0].trim();
-
-  if (firstLine.toLowerCase().startsWith('subject:')) {
-    const subject = firstLine.slice('subject:'.length).trim();
-    const body = lines.slice(1).join('\n').trim();
-    return { subject, body };
-  }
-
-  return { subject: 'Email Request', body: responseText };
 }
 
 async function generateEmail(requestText) {
@@ -46,4 +34,4 @@ async function generateEmail(requestText) {
   return parseEmailResponse(responseText);
 }
 
-module.exports = { generateEmail, parseEmailResponse };
+module.exports = { generateEmail };
