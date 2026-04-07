@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const { isAllowedSender, extractEmailRequest } = require('./whatsapp');
 const { translateToEnglish } = require('./translator');
-const { generateEmail } = require('./assistant');
+const { generateEmail } = require('./providers').getProvider();
 const { sendEmail } = require('./mailer');
 
 const app = express();
