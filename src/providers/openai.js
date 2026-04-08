@@ -1,5 +1,7 @@
 const OpenAI = require('openai');
 const { parseEmailResponse } = require('./parse');
+const { EMAIL_PROMPT_PREFIX } = require('../utils/constants');
+const logger = require('../utils/logger').child({ module: 'provider:openai' });
 
 let _openai = null;
 function getOpenAI() {
@@ -12,9 +14,12 @@ function getOpenAI() {
 async function generateEmail(requestText) {
   const openai = getOpenAI();
 
+  const prompt = `${EMAIL_PROMPT_PREFIX} ${requestText}`;
+  logger.info({ requestText }, 'Generating email via OpenAI');
+
   await openai.beta.threads.messages.create(process.env.OPENAI_THREAD_ID, {
     role: 'user',
-    content: `Write a professional email about: ${requestText}`,
+    content: prompt,
   });
 
   const run = await openai.beta.threads.runs.createAndPoll(process.env.OPENAI_THREAD_ID, {
@@ -31,7 +36,9 @@ async function generateEmail(requestText) {
   });
 
   const responseText = messages.data[0].content[0].text.value;
-  return parseEmailResponse(responseText);
+  const result = parseEmailResponse(responseText);
+  logger.info({ subject: result.subject }, 'Email generated via OpenAI');
+  return result;
 }
 
 module.exports = { generateEmail };

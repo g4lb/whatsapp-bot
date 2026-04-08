@@ -3,8 +3,8 @@ const Database = require('better-sqlite3');
 const path = require('path');
 const fs = require('fs');
 const { parseEmailResponse } = require('./parse');
-
-const SYSTEM_PROMPT = 'You are an email writer. When given a topic, write a professional email. Always include a clear subject line on the first line prefixed with \'Subject: \', followed by a blank line, then the email body.';
+const { EMAIL_PROMPT_PREFIX, CLAUDE_MODEL, CLAUDE_MAX_TOKENS, CLAUDE_SYSTEM_PROMPT } = require('../utils/constants');
+const logger = require('../utils/logger').child({ module: 'provider:claude' });
 
 let _anthropic = null;
 function getAnthropic() {
@@ -52,14 +52,16 @@ async function generateEmail(requestText) {
   const anthropic = getAnthropic();
   const db = getDb();
 
-  const userMessage = `Write a professional email about: ${requestText}`;
+  const userMessage = `${EMAIL_PROMPT_PREFIX} ${requestText}`;
+  logger.info({ requestText }, 'Generating email via Claude');
+
   const history = loadHistory(db);
   const messages = buildMessages(history, userMessage);
 
   const response = await anthropic.messages.create({
-    model: 'claude-sonnet-4-20250514',
-    max_tokens: 1024,
-    system: SYSTEM_PROMPT,
+    model: CLAUDE_MODEL,
+    max_tokens: CLAUDE_MAX_TOKENS,
+    system: CLAUDE_SYSTEM_PROMPT,
     messages,
   });
 
@@ -68,7 +70,9 @@ async function generateEmail(requestText) {
   saveMessage(db, 'user', userMessage);
   saveMessage(db, 'assistant', responseText);
 
-  return parseEmailResponse(responseText);
+  const result = parseEmailResponse(responseText);
+  logger.info({ subject: result.subject }, 'Email generated via Claude');
+  return result;
 }
 
 module.exports = { generateEmail, buildMessages, getDb };

@@ -1,3 +1,5 @@
+const { DEFAULT_SUBJECT } = require('../utils/constants');
+
 function parseEmailResponse(responseText) {
   const lines = responseText.split('\n');
   const firstLine = lines[0].trim();
@@ -8,7 +10,7 @@ function parseEmailResponse(responseText) {
     return { subject, body };
   }
 
-  return { subject: 'Email Request', body: responseText };
+  return { subject: DEFAULT_SUBJECT, body: responseText };
 }
 
 module.exports = { parseEmailResponse };
