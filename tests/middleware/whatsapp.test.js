@@ -1,4 +1,4 @@
-const { isAllowedSender, extractEmailRequest } = require('../src/whatsapp');
+const { isAllowedSender, extractEmailRequest } = require('../../src/middleware/whatsapp');
 
 describe('isAllowedSender', () => {
   const originalEnv = process.env;
