@@ -1,6 +1,6 @@
 # WhatsApp Email Bot
 
-Receives WhatsApp messages with a Hebrew trigger phrase, translates them to English, generates a professional email using a configurable AI provider (OpenAI or Claude), and sends it via Gmail.
+Receives WhatsApp messages with a Hebrew trigger phrase, translates them to English, generates a professional email using a configurable AI provider (OpenAI or Claude), and sends it via Gmail. Built with a layered architecture: routes, services, middleware, and providers.
 
 ## Setup
 
@@ -21,6 +21,7 @@ Edit `.env` with your values:
 - **WHATSAPP_VERIFY_TOKEN**: Any string you choose (used during webhook setup)
 - **WHATSAPP_ACCESS_TOKEN**: From Meta Developer Console
 - **ALLOWED_PHONE_NUMBER**: Phone number in international format without `+` (e.g. `972501234567`)
+- **LOG_LEVEL**: Log level for Winston logger: `debug`, `info` (default), `warn`, `error`
 - **OPENAI_API_KEY**: Your OpenAI API key
 - **OPENAI_ASSISTANT_ID**: Create an assistant at platform.openai.com with instructions: *"You are an email writer. When given a topic, write a professional email. Always include a clear subject line on the first line prefixed with 'Subject: ', followed by a blank line, then the email body."*
 - **OPENAI_THREAD_ID**: Create a thread via the OpenAI API or dashboard
