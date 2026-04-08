@@ -1,4 +1,4 @@
-const { buildMailOptions } = require('../src/mailer');
+const { buildMailOptions } = require('../../src/services/mailer');
 
 describe('buildMailOptions', () => {
   const originalEnv = process.env;

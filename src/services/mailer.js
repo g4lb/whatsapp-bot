@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const logger = require('../utils/logger').child({ module: 'mailer' });
 
 let _transporter = null;
 function getTransporter() {
@@ -25,7 +26,9 @@ function buildMailOptions(subject, body) {
 
 async function sendEmail(subject, body) {
   const mailOptions = buildMailOptions(subject, body);
+  logger.info({ to: mailOptions.to, subject }, 'Sending email');
   await getTransporter().sendMail(mailOptions);
+  logger.info('Email sent');
 }
 
 module.exports = { sendEmail, buildMailOptions };

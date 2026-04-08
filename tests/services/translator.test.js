@@ -1,4 +1,4 @@
-const { translateToEnglish } = require('../src/translator');
+const { translateToEnglish } = require('../../src/services/translator');
 
 describe('translateToEnglish', () => {
   test('translates Hebrew text to English', async () => {
